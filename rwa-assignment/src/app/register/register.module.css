@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #f4f4f4, #ffffff);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.leftPanel, .rightPanel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.formContainer {
+    width: 90%;
+    max-width: 360px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 2px solid #d32f2f;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.brandTitle {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #006633;
+}
+
+.description, .subHeader, .checkboxLabel, .signInText {
+    color: #666;
+    text-align: center;
+}
+
+.inputField {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.signUpButton {
+    width: 100%;
+    background-color: #006633;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.signUpButton:hover {
+    background-color: #004d26;
+}
+
+/* Error message styling */
+.message {
+    color: #d32f2f;
+    margin-top: 12px;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.checkboxLink, .signInLink {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+.checkboxLink:hover, .signInLink:hover {
+    color: #cc0000;
+}
+
