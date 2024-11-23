@@ -17,7 +17,6 @@ export default async function handler(req, res) {
             return res.status(400).json({ message: "Email or username already registered" });
         }
 
-
         const hashedPassword = await bcrypt.hash(password, 10);
         await usersCollection.insertOne({
             firstName,
