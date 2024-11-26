@@ -1,0 +1,95 @@
+/* checkout.module.css */
+.page {
+    background: linear-gradient(to bottom right, #fff4e6, #ffffff);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #006633;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.orderSummary {
+    background-color: #ffffff;
+    border: 2px solid #006633;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.itemName {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #006633;
+}
+
+.itemPrice {
+    font-size: 1rem;
+    color: #d52b1e;
+}
+
+.total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d52b1e;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.checkoutButton {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #006633;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.checkoutButton:hover {
+    background-color: #004d26;
+}
+
+.checkoutButton:active {
+    transform: scale(0.98);
+}
+
+.errorMessage {
+    color: #d32f2f;
+    font-size: 1rem;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.successMessage {
+    color: #006633;
+    font-size: 1rem;
+    margin-top: 15px;
+    text-align: center;
+}
