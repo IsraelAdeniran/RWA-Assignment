@@ -1,6 +1,6 @@
 import connectToDatabase from "../../lib/mongodb";
 import bcrypt from "bcryptjs";
-import { ObjectId } from 'mongodb';  // Import ObjectId for generating unique userId
+import { ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {

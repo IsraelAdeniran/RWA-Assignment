@@ -1,37 +1,41 @@
 import connectToDatabase from "../../lib/mongodb";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { getCustomSession } from "../../lib/session";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
-        res.status(405).json({ error: "Method not allowed" });
+        res.status(405).json({ message: "Method not allowed" });
         return;
     }
 
     const { email, password } = req.body;
+    const db = await connectToDatabase();
+    const user = await db.collection("users").findOne({ email });
 
-        const db = await connectToDatabase();
-        const user = await db.collection("users").findOne({ email });
+    if (!user) {
+        res.status(401).json({ success: false, message: "Invalid email or password" });
+        return;
+    }
 
-        if (!user) {
-            res.status(401).json({ success: false, message: "Invalid email or password" });
-            return;
-        }
+    let isPasswordCorrect;
 
-        const isPasswordCorrect = user.accountType === "manager" ?
-            password === user.password :
-            await bcrypt.compare(password, user.password);
+    if (user.accountType === "manager") {
+        // For managers, check the password directly (unhashed)
+        isPasswordCorrect = password === user.password;
+    } else {
+        // For customers, compare the hashed password
+        isPasswordCorrect = await bcrypt.compare(password, user.password);
+    }
 
-        if (!isPasswordCorrect) {
-            res.status(401).json({ success: false, message: "Invalid email or password" });
-            return;
-        }
+    if (!isPasswordCorrect) {
+        res.status(401).json({ success: false, message: "Invalid email or password" });
+        return;
+    }
 
-        const token = jwt.sign(
-            { userId: user._id.toString(), email, accountType: user.accountType },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-        );
+    // Save user data to session
+    const session = await getCustomSession(req, res);
+    session.user = { id: user._id.toString(), email: user.email, accountType: user.accountType };
+    await session.save();
 
-        res.status(200).json({ success: true, token, accountType: user.accountType });
+    res.status(200).json({ success: true, accountType: user.accountType });
 }

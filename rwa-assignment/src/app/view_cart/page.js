@@ -8,15 +8,12 @@ export default function ViewCart() {
     const [loading, setLoading] = useState(true);
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
 
+    // Fetch the cart data using session-based API
     useEffect(() => {
         (async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token) throw new Error('Unauthorized: Please log in.');
-
-                const response = await fetch('/api/cart', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+                const response = await fetch('/api/cart'); // No need for Authorization header
+                if (response.status === 401) throw new Error('Unauthorized: Please log in.');
                 if (!response.ok) throw new Error(`Error: ${response.status}`);
 
                 setCart(await response.json());
@@ -30,10 +27,9 @@ export default function ViewCart() {
 
     const handleRemoveFromCart = async (productId) => {
         try {
-            const token = localStorage.getItem('token');
             const response = await fetch('/api/cart', {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId }),
             });
             if (!response.ok) throw new Error('Failed to remove item');

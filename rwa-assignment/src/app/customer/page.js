@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import {Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Grid, Snackbar, Alert} from '@mui/material';
+import { Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Grid, Snackbar, Alert } from '@mui/material';
 import styles from './customer.module.css';
 
 export default function CustomerPage() {
@@ -11,7 +11,21 @@ export default function CustomerPage() {
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
     const router = useRouter();
 
-    // Fetch products from API
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                const response = await fetch('/api/checkSession');
+                if (!response.ok) {
+                    throw new Error('Session invalid');
+                }
+            } catch (error) {
+                router.push('/login');
+            }
+        };
+
+        checkSession();
+    }, [router]);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -29,7 +43,6 @@ export default function CustomerPage() {
         fetchProducts();
     }, []);
 
-    // Fetch weather data
     useEffect(() => {
         const fetchWeather = async () => {
             try {
@@ -74,8 +87,36 @@ export default function CustomerPage() {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('/api/logout', { method: 'POST' });
+            if (response.ok) {
+                router.push('/login');
+            } else {
+                throw new Error('Failed to log out');
+            }
+        } catch (error) {
+            console.error('Logout error:', error.message);
+        }
+    };
+
     return (
         <Box className={styles.page}>
+            {/* Logout Button */}
+            <Button
+                variant="contained"
+                color="error"
+                onClick={handleLogout}
+                style={{
+                    position: 'fixed',
+                    top: 20,
+                    right: 20,
+                    zIndex: 1000,
+                }}
+            >
+                Logout
+            </Button>
+
             {/* Weather Information */}
             {weather && (
                 <Box className={styles.weather}>

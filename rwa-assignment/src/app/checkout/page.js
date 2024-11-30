@@ -40,18 +40,10 @@ export default function Checkout() {
         setError('');
         setSuccessMessage('');
         try {
-            const token = localStorage.getItem('token');
-
-            if (!token) {
-                setError('You must be logged in to place an order.');
-                return;
-            }
-
             const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({ cart, total }),
             });
