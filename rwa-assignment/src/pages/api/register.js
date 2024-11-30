@@ -8,7 +8,6 @@ export default async function handler(req, res) {
 
     const { firstName, lastName, username, email, password, accountType } = req.body;
 
-    try {
         const db = await connectToDatabase();
         const usersCollection = db.collection("users");
 
@@ -29,8 +28,4 @@ export default async function handler(req, res) {
         });
 
         res.status(201).json({ message: "User registered successfully" });
-    } catch (error) {
-        console.error("Registration error:", error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
 }

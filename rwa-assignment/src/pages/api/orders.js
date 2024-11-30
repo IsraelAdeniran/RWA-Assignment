@@ -9,7 +9,6 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: 'Unauthorized: No token provided' });
         }
 
-        try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const { userId, accountType } = decoded;
 
@@ -29,10 +28,6 @@ export default async function handler(req, res) {
             }
 
             res.status(200).json(orders);
-        } catch (error) {
-            console.error('Error fetching orders:', error.message);
-            res.status(401).json({ message: 'Unauthorized: Invalid or malformed token' });
-        }
     } else {
         res.status(405).json({ message: 'Method not allowed' });
     }

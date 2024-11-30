@@ -10,7 +10,6 @@ export default async function handler(req, res) {
 
     const { email, password } = req.body;
 
-    try {
         const db = await connectToDatabase();
         const user = await db.collection("users").findOne({ email });
 
@@ -35,8 +34,4 @@ export default async function handler(req, res) {
         );
 
         res.status(200).json({ success: true, token, accountType: user.accountType });
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
-    }
 }

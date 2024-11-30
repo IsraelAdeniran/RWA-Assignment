@@ -8,8 +8,6 @@ export default async function handler(req, res) {
         if (!token) {
             return res.status(401).json({ message: 'Unauthorized: No token provided' });
         }
-
-        try {
             // Verify the token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const { userId, email } = decoded;
@@ -39,10 +37,6 @@ export default async function handler(req, res) {
             } else {
                 res.status(500).json({ message: 'Failed to place order' });
             }
-        } catch (error) {
-            console.error('Checkout error:', error.message);
-            res.status(401).json({ message: 'Unauthorized: Invalid or malformed token' });
-        }
     } else {
         res.status(405).json({ message: 'Method not allowed' });
     }

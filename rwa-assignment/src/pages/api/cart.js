@@ -1,8 +1,6 @@
 import connectToDatabase from '../../../../../RWA-Project/rwa-project/src/lib/mongodb';
 
 export default async function handler(req, res) {
-    try {
-        const db = await connectToDatabase();
 
         if (req.method === 'GET') {
             // Fetch all items from the cart collection
@@ -35,8 +33,4 @@ export default async function handler(req, res) {
         } else {
             res.status(405).json({ message: 'Method not allowed' });
         }
-    } catch (error) {
-        console.error('Error in /api/cart:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
 }
