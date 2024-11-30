@@ -1,12 +1,13 @@
 import connectToDatabase from "../../lib/mongodb";
 import bcrypt from "bcryptjs";
+import { ObjectId } from 'mongodb';  // Import ObjectId for generating unique userId
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { firstName, lastName, username, email, password, accountType } = req.body;
+        const { firstName, lastName, username, email, password, accountType } = req.body;
 
         const db = await connectToDatabase();
         const usersCollection = db.collection("users");
@@ -17,15 +18,17 @@ export default async function handler(req, res) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = new ObjectId();
+
         await usersCollection.insertOne({
+            _id: userId,
             firstName,
             lastName,
             username,
             email,
             password: hashedPassword,
-            accountType,
+            accountType: "customer",
             createdAt: new Date(),
         });
-
-        res.status(201).json({ message: "User registered successfully" });
+        res.status(201).json({ message: "User registered successfully", userId: userId.toString() });
 }
