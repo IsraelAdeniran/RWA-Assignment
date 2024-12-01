@@ -5,7 +5,6 @@ let dbConnection;
 
 async function connectToDatabase() {
     if (!dbConnection) {
-        try {
             const uri = process.env.MONGODB_URI;
             if (!uri) {
                 throw new Error("MongoDB URI is not set in environment");
@@ -15,10 +14,6 @@ async function connectToDatabase() {
             }
             await client.connect();
             dbConnection = client.db("RichWeb");  // Ensure this matches your actual DB name
-        } catch (error) {
-            console.error("Database connection error:", error);
-            throw error;
-        }
     }
     return dbConnection;
 }
