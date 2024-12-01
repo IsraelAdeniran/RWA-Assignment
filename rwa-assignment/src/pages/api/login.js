@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     let isPasswordCorrect;
 
     if (user.accountType === "manager") {
-        // For managers, check the password directly (unhashed)
+        // For managers, check the password directly
         isPasswordCorrect = password === user.password;
     } else {
         // For customers, compare the hashed password
