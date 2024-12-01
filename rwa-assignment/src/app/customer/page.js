@@ -47,7 +47,7 @@ export default function CustomerPage() {
         const fetchWeather = async () => {
             try {
                 const response = await fetch(
-                    'http://api.weatherapi.com/v1/current.json?key=a5bec305169942fe99f142501242110&q=Dublin&aqi=no'
+                    'https://api.weatherapi.com/v1/current.json?key=a5bec305169942fe99f142501242110&q=Dublin&aqi=no'
                 );
                 if (!response.ok) {
                     throw new Error('Failed to fetch weather');
