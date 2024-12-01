@@ -3,10 +3,6 @@ import bcrypt from "bcryptjs";
 import { getCustomSession } from "../../lib/session";
 
 export default async function handler(req, res) {
-    if (req.method !== "POST") {
-        res.status(405).json({ message: "Method not allowed" });
-        return;
-    }
 
     const { email, password } = req.body;
     const db = await connectToDatabase();
