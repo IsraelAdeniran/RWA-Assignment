@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextField, Button, Typography, Box, Checkbox, Link } from "@mui/material";
+import { TextField, Button, Typography, Box, Checkbox, Link, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import emailValidator from 'email-validator';
 import styles from "./register.module.css";
 
 export default function RegisterPage() {
@@ -12,9 +13,28 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [openDialog, setOpenDialog] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
 
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
     const handleRegister = async () => {
+        // Validation
+        if (!firstName || !lastName || !username || !email || !password) {
+            setErrorMessage("All fields are required.");
+            setOpenDialog(true);
+            return;
+        }
+
+        if (!emailValidator.validate(email)) {
+            setErrorMessage("Please enter a valid email address.");
+            setOpenDialog(true);
+            return;
+        }
+
         try {
             const response = await fetch("/api/register", {
                 method: "POST",
@@ -25,11 +45,13 @@ export default function RegisterPage() {
             if (data.success) {
                 router.push("/login");
             } else {
-                setMessage(data.message || "Registration failed.");
+                setErrorMessage(data.message || "Registration failed.");
+                setOpenDialog(true);
             }
         } catch (error) {
             console.error('Registration error:', error);
-            setMessage("An error occurred. Please try again.");
+            setErrorMessage("An error occurred. Please try again.");
+            setOpenDialog(true);
         }
     };
 
@@ -68,6 +90,21 @@ export default function RegisterPage() {
                     </Typography>
                 </Box>
             </div>
+
+            {/* Dialog for error messages */}
+            <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {errorMessage}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} autoFocus>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }
