@@ -4,8 +4,7 @@ import { ObjectId } from "mongodb";
 import emailValidator from "email-validator";
 
 const sanitizeInput = (input) => {
-    if (typeof input !== "string") return ""; // Prevent crashes for non-string inputs
-    // Replace potential malicious characters and trim excessive whitespace
+    if (typeof input !== "string") return "";
     return input
         .replace(/[\u0000<>;'"/\\]/g, "")
         .replace(/[\r\n]/g, "")
